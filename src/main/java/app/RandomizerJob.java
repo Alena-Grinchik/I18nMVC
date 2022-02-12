@@ -11,7 +11,7 @@ public class RandomizerJob implements Job {
     @Autowired
     private Words words;
 
-    public void execute(JobExecutionContext context) throws JobExecutionException {
+    public void execute(JobExecutionContext context) {
         words.randomize();
     }
 }

@@ -1,15 +1,21 @@
 package app.config;
 
+import app.RandomizerJob;
 import app.Words;
+import org.quartz.*;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+
+import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 
 
 @Configuration
@@ -50,8 +56,7 @@ public class MvcWebConfig implements WebMvcConfigurer {
         return words;
     }
 
-/*
-    @Bean
+/*    @Bean
     public JobDetail jobDetail() {
         return JobBuilder.newJob().ofType(RandomizerJob.class)
             .storeDurably()
@@ -69,7 +74,16 @@ public class MvcWebConfig implements WebMvcConfigurer {
                 .build();
     }
 
-*/
+
+
+@Bean
+public Scheduler scheduler(Trigger trigger, JobDetail job, SchedulerFactoryBean factory)
+    throws SchedulerException {
+Scheduler scheduler = factory.getScheduler();
+scheduler.scheduleJob(job, trigger);
+scheduler.start();
+return scheduler;
+}*/
 
 }
 
